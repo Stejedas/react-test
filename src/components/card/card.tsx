@@ -10,8 +10,6 @@ interface Props {
     product: Product
 }
 
-
-
 const CardProduct: React.FunctionComponent<Props> = ({ product }) => {
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -32,26 +30,29 @@ const CardProduct: React.FunctionComponent<Props> = ({ product }) => {
         handleOk,
         handleCancel
     }
+    
     return (
 
         <Card
             hoverable
-            style={{ width: 'auto', height: '600px', padding: "20px" }}
+            style={{ width: '', height: '500px' }}
 
         >
             <div className='container_img_card'>
                 <img alt="example" className='img_card' src={product.image} />
-            </div>
-            <Meta title={product.title} description={`${product.price} €`} />
-            <div className='container_heard_card'>
-                <HeartFilled className='heard_card' />
             </div>
             <div className='container_button_info'>
             <button className="button_info" type="button" onClick={showModal}>
                 <InfoCircleOutlined className='button_info_icon'/> <p className='p_info_card'>Info</p>
             </button>
             </div>
-            <ModalCardProduct product={product} functionS={functions} isModalOpen={isModalOpen}></ModalCardProduct>
+            <h5 className='title_card_product'>{product.title}</h5>
+            <p className='price_card'>{product.price} € </p>
+            <div className='container_heard_card'>
+                <HeartFilled className='heard_card' />
+            </div>
+           
+            <ModalCardProduct product={product} modalFunctions={functions} isModalOpen={isModalOpen}></ModalCardProduct>
         </Card>
 
 

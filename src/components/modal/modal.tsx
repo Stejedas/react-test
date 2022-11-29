@@ -4,15 +4,15 @@ import { Product } from '../../utils/interfaces';
 
 interface Props {
     product: Product,
-    functionS: {
+    modalFunctions: {
         handleOk: () => void;
         handleCancel: () => void;
     },
     isModalOpen: boolean
 }
 
-const ModalCardProduct: React.FunctionComponent<Props> = ({ product, functionS, isModalOpen }) => (
-    <Modal title={product.title} open={isModalOpen} onOk={functionS.handleOk} onCancel={functionS.handleCancel}>
+const ModalCardProduct: React.FunctionComponent<Props> = ({ product, modalFunctions, isModalOpen }) => (
+    <Modal title={product.title} open={isModalOpen} onOk={modalFunctions.handleOk} onCancel={modalFunctions.handleCancel}>
         <div className='container_img_card'>
             <img alt="example" className='img_card' src={product.image} />
             <div>

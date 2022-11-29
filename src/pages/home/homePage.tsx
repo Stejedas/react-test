@@ -4,6 +4,7 @@ import { Product } from '../../utils/interfaces';
 import CardProduct from '../../components/card/card';
 import { Row, Col, Layout, Select, Pagination, PaginationProps } from 'antd';
 import MenuHeader from '../../components/header/header';
+import Loading from '../../components/loading/loading';
 // import { DownCircleFilled, EuroCircleFilled, PauseCircleFilled, UpCircleFilled } from '@ant-design/icons';
 const { Content } = Layout;
 
@@ -32,6 +33,8 @@ const OPTIONS_ORDER = [
 
 function HomePage(): any {
 
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const [allProducts, setAllProducts] = useState<Array<Product>>([])
 
     const [filterProducts, setFilterProducts] = useState<Array<Product>>([])
@@ -48,8 +51,12 @@ function HomePage(): any {
             setAllProducts(resp);
             setFilterProducts(resp)
             setPageProducts(sliceArrayPagination(resp))
+
         })
+        setIsLoading(false)
+
     }, [])
+
 
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -132,8 +139,12 @@ function HomePage(): any {
 
     return (<>
         <MenuHeader></MenuHeader>
-        <Content className="site-layout" style={{ "margin": 50 }}>
-            <Row className='row_filter'><Col xs={18}>
+
+        <Row>
+            <Col xs={2}></Col>
+            <Col xs={20}>
+                <Row className='row_filter'>
+                <Col xs={24} md={18}>
                 <h5>Filter:</h5>
                 <Select
                     mode="multiple"
@@ -148,15 +159,70 @@ function HomePage(): any {
 
                 />
             </Col>
-                <Col xs={6}>
+                <Col xs={24} md={6}>
                     <div className='container_button'>
-                        {/* <button type='button' name='orderByPrice' onClick={orderByPrice} className="button">
-                            {
-                                orderPrice !== undefined ?
-                                    !orderPrice ? <DownCircleFilled className='icon_button' /> : <UpCircleFilled className='icon_button' />
-                                    : <PauseCircleFilled className='icon_button' />
-                            }<EuroCircleFilled className='icon_button' />
-                        </button> */}
+                        
+                        <Select
+                            placeholder="Order by ..."
+                            style={{ width: "95%" }}
+                            onChange={orderByPrice}
+                            options={OPTIONS_ORDER}
+                        />
+                    </div>
+                </Col>
+                </Row>
+                <Row justify="space-around" className='container_catalog' gutter={[16, 16]}>
+                
+                {pageProducts.length === 0 ? 
+                    <Loading></Loading>
+                    :
+                pageProducts?.filter((array: any, index: number) =>
+                    index === page - 1
+                )[0]?.map((product: any) => {
+
+                    return (
+                        <Col xs={24} md={12} lg={6} className="col_cards_products">
+                            <CardProduct product={product}></CardProduct>
+                        </Col>
+
+                    )
+                })}
+                    
+            </Row>
+            <Row className='row_pagination'>
+                <Pagination size="small" current={page} total={filterProducts.length} showTotal={showTotal} onChange={handleChange} defaultPageSize={12} />
+            </Row>
+            </Col>
+            <Col xs={2}></Col>
+        </Row>
+        
+    </>
+    )
+}
+
+export default HomePage; 
+
+/**
+ *    <Content className="site-layout" >
+            <Row className='row_filter'>
+                <Col xs={24} lg={18}>
+                <h5>Filter:</h5>
+                <Select
+                    mode="multiple"
+                    placeholder="Filter by category "
+                    value={selectedItems}
+                    onChange={handleEvent}
+                    style={{ width: '100%' }}
+                    options={filteredOptions.map((item) => ({
+                        value: item,
+                        label: item,
+                    }))}
+
+                />
+            </Col>
+                <Col xs={24} lg={6}>
+                    <div className='container_button'>
+                        
                         <Select
                             placeholder="Order by ..."
                             style={{ width: 200 }}
@@ -167,25 +233,26 @@ function HomePage(): any {
                 </Col>
             </Row>
             <Row justify="space-around">
-                {pageProducts?.filter((array: any, index: number) =>
+                
+                {pageProducts.length === 0 ? 
+                    <Loading></Loading>
+                    :
+                pageProducts?.filter((array: any, index: number) =>
                     index === page - 1
                 )[0]?.map((product: any) => {
 
                     return (
 
-                        <Col span={6} style={{ padding: 20 }}>
+                        <Col xs={24} md={12} lg={6} >
                             <CardProduct product={product}></CardProduct>
                         </Col>
 
                     )
                 })}
+                    
             </Row>
             <Row className='row_pagination'>
                 <Pagination size="small" current={page} total={filterProducts.length} showTotal={showTotal} onChange={handleChange} defaultPageSize={12} />
             </Row>
         </Content>
-    </>
-    )
-}
-
-export default HomePage; 
+ */

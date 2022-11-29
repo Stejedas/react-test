@@ -8,7 +8,7 @@ const { Header } = Layout;
 
 const MenuHeader: React.FC = () => (
     <Layout>
-        <Header style={{ display: 'flex', justifyContent: 'space-between', top: 0, zIndex: 1, width: '100%' }}>
+        <Header style={{ display: 'flex', justifyContent: 'space-between', top: 0, zIndex: 1, width: '100vw' }}>
             <div>
                 <Menu
                     theme="dark"
@@ -21,12 +21,12 @@ const MenuHeader: React.FC = () => (
                     style={{ width: 'fit-content' }}
                 />
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', top: 0, zIndex: 1, width: 'fit-content'}}>
-                <Avatar size={64} icon={<UserOutlined />} style={{padding: "10px", lineHeight: 'none'}}/>
+            {/* <div style={{ display: 'flex', justifyContent: 'space-between', top: 0, zIndex: 1, width: 'fit-content' }}>
+                <Avatar size={64} icon={<UserOutlined />} style={{ padding: "10px", lineHeight: 'none' }} />
                 <div>
-                    <p style={{color: 'white'}}>User: Name User</p>
+                    <p style={{ color: 'white' }}>User: Name User</p>
                 </div>
-            </div>
+            </div> */}
 
         </Header>
     </Layout>
