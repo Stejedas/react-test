@@ -35,8 +35,7 @@ const CardProduct: React.FunctionComponent<Props> = ({ product }) => {
 
         <Card
             hoverable
-            style={{ width: '', height: '500px' }}
-
+            style={{ height: '500px' }}
         >
             <div className='container_img_card'>
                 <img alt="example" className='img_card' src={product.image} />

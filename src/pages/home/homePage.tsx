@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import { getAllProducts } from "../../services/getAllProducts";
 import { Product } from '../../utils/interfaces';
 import CardProduct from '../../components/card/card';
-import { Row, Col, Layout, Select, Pagination, PaginationProps } from 'antd';
+import { Row, Col, Select, Pagination, PaginationProps } from 'antd';
 import MenuHeader from '../../components/header/header';
 import Loading from '../../components/loading/loading';
-// import { DownCircleFilled, EuroCircleFilled, PauseCircleFilled, UpCircleFilled } from '@ant-design/icons';
-const { Content } = Layout;
-
+import FooterComponent from '../../components/footer/footer';
 
 const OPTIONS = ["Men's clothing", "Women's clothing", "Jewelery", "Electronics"];
 
@@ -144,115 +142,70 @@ function HomePage(): any {
             <Col xs={2}></Col>
             <Col xs={20}>
                 <Row className='row_filter'>
-                <Col xs={24} md={18}>
-                <h5>Filter:</h5>
-                <Select
-                    mode="multiple"
-                    placeholder="Filter by category "
-                    value={selectedItems}
-                    onChange={handleEvent}
-                    style={{ width: '100%' }}
-                    options={filteredOptions.map((item) => ({
-                        value: item,
-                        label: item,
-                    }))}
-
-                />
-            </Col>
-                <Col xs={24} md={6}>
-                    <div className='container_button'>
-                        
+                    <Col xs={24} md={18}>
+                        <h5>Filter:</h5>
                         <Select
-                            placeholder="Order by ..."
-                            style={{ width: "95%" }}
-                            onChange={orderByPrice}
-                            options={OPTIONS_ORDER}
+                            mode="multiple"
+                            placeholder="Filter by category "
+                            value={selectedItems}
+                            onChange={handleEvent}
+                            style={{ width: '100%' }}
+                            options={filteredOptions.map((item) => ({
+                                value: item,
+                                label: item,
+                            }))}
+
                         />
-                    </div>
-                </Col>
+                    </Col>
+                    <Col xs={24} md={6}>
+                        <div className='container_button'>
+
+                            <Select
+                                placeholder="Order by ..."
+                                style={{ width: "95%" }}
+                                onChange={orderByPrice}
+                                options={OPTIONS_ORDER}
+                            />
+                        </div>
+                    </Col>
                 </Row>
                 <Row justify="space-around" className='container_catalog' gutter={[16, 16]}>
-                
-                {pageProducts.length === 0 ? 
-                    <Loading></Loading>
-                    :
-                pageProducts?.filter((array: any, index: number) =>
-                    index === page - 1
-                )[0]?.map((product: any) => {
 
-                    return (
-                        <Col xs={24} md={12} lg={6} className="col_cards_products">
-                            <CardProduct product={product}></CardProduct>
-                        </Col>
+                    {
+                        isLoading ?
+                            <Col xs={24}>
+                            <Loading></Loading>
+                            </Col>
+                            :
+                            pageProducts.length === 0 ?
+                                <Loading></Loading>
+                                :
+                                pageProducts?.filter((array: any, index: number) =>
+                                    index === page - 1
+                                )[0]?.map((product: any) => {
 
-                    )
-                })}
-                    
-            </Row>
-            <Row className='row_pagination'>
-                <Pagination size="small" current={page} total={filterProducts.length} showTotal={showTotal} onChange={handleChange} defaultPageSize={12} />
-            </Row>
+                                    return (
+                                        <Col xs={24} md={12} lg={6} className="col_cards_products">
+                                            <CardProduct product={product}></CardProduct>
+                                        </Col>
+
+                                    )
+                                })
+
+                    }
+
+                </Row>
+                <Row className='row_pagination'>
+                    <Pagination size="small" current={page} total={filterProducts.length} showTotal={showTotal} onChange={handleChange} defaultPageSize={12} />
+                </Row>
             </Col>
             <Col xs={2}></Col>
         </Row>
-        
+        <Row>
+            <FooterComponent></FooterComponent>
+        </Row>
     </>
     )
 }
 
 export default HomePage; 
-
-/**
- *    <Content className="site-layout" >
-            <Row className='row_filter'>
-                <Col xs={24} lg={18}>
-                <h5>Filter:</h5>
-                <Select
-                    mode="multiple"
-                    placeholder="Filter by category "
-                    value={selectedItems}
-                    onChange={handleEvent}
-                    style={{ width: '100%' }}
-                    options={filteredOptions.map((item) => ({
-                        value: item,
-                        label: item,
-                    }))}
-
-                />
-            </Col>
-                <Col xs={24} lg={6}>
-                    <div className='container_button'>
-                        
-                        <Select
-                            placeholder="Order by ..."
-                            style={{ width: 200 }}
-                            onChange={orderByPrice}
-                            options={OPTIONS_ORDER}
-                        />
-                    </div>
-                </Col>
-            </Row>
-            <Row justify="space-around">
-                
-                {pageProducts.length === 0 ? 
-                    <Loading></Loading>
-                    :
-                pageProducts?.filter((array: any, index: number) =>
-                    index === page - 1
-                )[0]?.map((product: any) => {
-
-                    return (
-
-                        <Col xs={24} md={12} lg={6} >
-                            <CardProduct product={product}></CardProduct>
-                        </Col>
-
-                    )
-                })}
-                    
-            </Row>
-            <Row className='row_pagination'>
-                <Pagination size="small" current={page} total={filterProducts.length} showTotal={showTotal} onChange={handleChange} defaultPageSize={12} />
-            </Row>
-        </Content>
- */
